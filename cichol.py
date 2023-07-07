@@ -3,8 +3,6 @@ import sys,shutil,os,yaml,subprocess
 def sendHelp():
     print("Usage: python3 cichol.py [OPTION]... in=INPUT_DIRECTORY... out=OUTPUT_DIRECTORY... gameConfig=GAME_CONFIG_FILE...\n\nOptions:\n\n   \033[1m-f, --merge-fe3h-data1\033[0m\n       Merge the DATA1.bin file for Fire Emblem: Three Houses.\n       Only use if DATA1.bin is stored in parts, usually because of FAT32 filesize limits. \n       Split using the pattern \"DATA1_part_\" with the GNU coreutils \"split\" command.\n\n   \033[1m--help\033[0m  Display this help and exit.")
 
-
-
 if len(sys.argv) < 4:
     sendHelp()
 try:
