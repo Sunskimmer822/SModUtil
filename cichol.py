@@ -59,12 +59,11 @@ for gameFile in moddedFiles:
                 subprocess.run("rm", "DATA1_PART_*")
                 print("DATA1.bin")
         else:
-            print(files["files"][gameFile])
-            if not os.path.isdir((dataOutDirectory + files["files"][gameFile])[0:len(dataOutDirectory + files["files"][gameFile])-len(gameFile)]):
-                subprocess.run("mkdir", "-p", (dataOutDirectory + files["files"][gameFile])[0:len(dataOutDirectory + files["files"][gameFile])-len(gameFile)])
+            gameFilePathOut = (dataOutDirectory + files["files"][gameFile])
+            if not os.path.isdir(gameFilePathOut[0:len(gameFilePathOut)-len(gameFile)]):
+                subprocess.run("mkdir", "-p", gameFilePathOut[0:len(gameFilePathOut)-len(gameFile)])
             try:
-                os.remove(dataOutDirectory + files["files"][gameFile])
+                os.remove(gameFilePathOut)
             except:
                 pass
-            shutil.copy(dataInDirectory + gameFile, dataOutDirectory + files["files"][gameFile])
-
+            shutil.copy(dataInDirectory + gameFile, gameFilePathOut)
