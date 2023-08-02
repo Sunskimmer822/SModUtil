@@ -1,7 +1,7 @@
 import sys,shutil,os,yaml,subprocess
 
 def sendHelp():
-    print("Usage: python3 cichol.py [OPTION]... in=INPUT_DIRECTORY... out=OUTPUT_DIRECTORY... gameConfig=GAME_CONFIG_FILE...\n\nOptions:\n\n   \033[1m-f, --merge-fe3h-data1\033[0m\n       Merge the DATA1.bin file for Fire Emblem: Three Houses.\n       Only use if DATA1.bin is stored in parts, usually because of FAT32 filesize limits. \n       Split using the pattern \"DATA1_part_\" with the GNU coreutils \"split\" command.\n\n   \033[1m--help\033[0m  Display this help and exit.")
+    print("Usage: python3 cichol.py [OPTION]... in=INPUT_DIRECTORY... out=OUTPUT_DIRECTORY... useGameConfig=GAME_ID...\n\nOptions:\n\n   \033[1m-f, --merge-fe3h-data1\033[0m\n       Merge the DATA1.bin file for Fire Emblem: Three Houses.\n       Only use if DATA1.bin is stored in parts, usually because of FAT32 filesize limits. \n       Split using the pattern \"DATA1_part_\" with the GNU coreutils \"split\" command.\n\n   \033[1m--help\033[0m  Display this help and exit.")
 
 if len(sys.argv) < 4:
     sendHelp()
@@ -16,8 +16,8 @@ for arg in sys.argv:
         dataInDirectory = arg[3,len(arg)]
     if arg.lower().startswith("out="):
         dataOutDirectory = arg[4:len(arg)]
-    if arg.lower().startswith("gameconfig="):
-        configPath = arg[10:len(arg)]
+    if arg.lower().startswith("useGameconfig="):
+        gameConfig = arg[13:len(arg)]
     if arg.lower() == "-f" or arg == "--merge-fe3h-data1":
         mergeFE3HDATA = True
     else: mergeFE3HDATA1 = False
@@ -28,12 +28,6 @@ try:
 except:
     sys.exit()
 
-if configPath is None:
-    configPath = "./gameConfig.yml"
-
-if not os.path.isfile(configPath):
-    print("\nConfig file " + configPath + " does not exist\n")
-    sys.exit()
 if not os.path.isdir(dataInDirectory):
     print("\n" + dataInDirectory + " does not exist\n")
     sys.exit()
@@ -41,23 +35,22 @@ if not os.path.isdir(dataOutDirectory):
     print("\n" + dataOutDirectory + " does not exist\n")
     sys.exit()
 
-with open(configPath, 'r') as filesDoc:
+with open("./gameConfig.yml", 'r') as filesDoc:
     files = yaml.safe_load(filesDoc)
 
 moddedFiles = os.listdir(dataInDirectory)
 
 for gameFile in moddedFiles:
-    if gameFile in files["files"]:        
+    if gameFile in files[gameConfig]:        
         if mergeFE3HDATA1:
                 try:
-                    os.remove(dataOutDirectory + files[files["DATA1.bin"]])
+                    os.remove(dataOutDirectory + files[gameConfig]["DATA1.bin"])
                 except:
                     pass
-                subprocess.run(["cat", dataInDirectory + "/DATA1_PART_*", ">>", dataOutDirectory + files[files[gameFile]]])
+                subprocess.run(["cat", dataInDirectory + "/DATA1_PART_*", ">>", dataOutDirectory + files[gameConfig[gameFile]]])
                 subprocess.run("rm", "DATA1_PART_*")
-                print("DATA1.bin")
         else:
-            gameFilePathOut = (dataOutDirectory + files["files"][gameFile])
+            gameFilePathOut = (dataOutDirectory + files[gameConfig][gameFile])
             if not os.path.isdir(gameFilePathOut[0:len(gameFilePathOut)-len(gameFile)]):
                 subprocess.run("mkdir", "-p", gameFilePathOut[0:len(gameFilePathOut)-len(gameFile)])
             try:

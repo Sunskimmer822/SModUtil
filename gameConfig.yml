@@ -1,6 +1,6 @@
 #partial config/filelist created for Fire Emblem: Three Houses V1.2.0
 
-files:
+fe3h:
   'DATA1.bin': './DATA1.bin'
   'BGM.ktsl2stbin': './nx/sound/BGM.ktsl2stbin'
   'gwscrdata.bin': './patch1/common/common/gwscrdata.bin'
@@ -24,3 +24,12 @@ files:
   'INFO0.bin': './patch4/INFO0.bin'
   'INFO1.bin': './patch4/INFO1.bin'
   'INFO2.bin': './patch4/INFO2.bin'
+fee_mitm:
+  'person.xml.bundle': './Data/StreamingAssets/aa/Switch/fe_assets_gamedata/person.xml.bundle'
+  'assettable.xml.bundle': './Data/StreamingAssets/aa/Switch/fe_assets_gamedata/assettable.xml.bundle'
+  'calculator.xml.bundle': './Data/StreamingAssets/aa/Switch/fe_assets_gamedata/calculator.xml.bundle'
+  'job.xml.bundle': './Data/StreamingAssets/aa/Switch/fe_assets_gamedata/job.xml.bundle'
+  'params.xml.bundle': './Data/StreamingAssets/aa/Switch/fe_assets_gamedata/params.xml.bundle'
+  'god.xml.bundle': './Data/StreamingAssets/aa/Switch/fe_assets_gamedata/god.xml.bundle'
+fee_cobalt:
+  'person.xml':'./patches/xml/person.xml'
